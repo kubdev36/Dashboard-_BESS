@@ -13,6 +13,7 @@ import {
 } from "recharts";
 import { mockEnergyReport } from "../../data/mockData";
 import "./EnergyReportPage.scss";
+import { useTranslation } from "react-i18next";
 
 const presets = [
   "Today",
@@ -25,6 +26,7 @@ const presets = [
 
 export default function EnergyReportPage() {
   const [preset, setPreset] = useState("Last 7 days");
+  const { t } = useTranslation('report');
 
   const rows = useMemo(() => {
     if (preset === "Today") return mockEnergyReport.slice(0, 1);
@@ -69,9 +71,9 @@ export default function EnergyReportPage() {
       <div className="card">
         <div className="page-toolbar">
           <div>
-            <div className="card-title">Energy Report</div>
+            <div className="card-title">{t('Report')}</div>
             <div className="card-subtitle">
-              Theo dõi sạc, xả, PV, grid import/export và hiệu suất hệ thống.
+              {t('Description')}
             </div>
           </div>
           <div className="page-toolbar-actions">
