@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { mockSystemSettings } from "../../data/mockData";
 import "./SystemSettingsPage.scss";
+import { useLanguage } from "../../Lang/LanguageProvider";
+import { useIntl } from "react-intl";
 
 const tabs = ["site", "device", "notification", "realtime"];
 
 export default function SystemSettingsPage() {
+  const lang = useIntl();
+
   const [activeTab, setActiveTab] = useState("site");
   const [settings, setSettings] = useState({
     ...mockSystemSettings,
@@ -48,9 +52,9 @@ export default function SystemSettingsPage() {
       <div className="card">
         <div className="page-toolbar">
           <div>
-            <div className="card-title">System Settings</div>
+            <div className="card-title">{lang.formatMessage({ id: "system_settings" })}</div>
             <div className="card-subtitle">
-              Cấu hình thông tin trạm, thiết bị, thông báo và realtime refresh.
+              {lang.formatMessage({ id: "description_settings" })}
             </div>
           </div>
           <div className="page-toolbar-actions">
@@ -70,9 +74,9 @@ export default function SystemSettingsPage() {
                 })
               }
             >
-              Reset Default
+              {lang.formatMessage({ id: "reset_default" })}
             </button>
-            <button className="btn btn-primary">Save Settings</button>
+            <button className="btn btn-primary">{lang.formatMessage({ id: "save_settings" })}</button>
           </div>
         </div>
       </div>
@@ -84,10 +88,10 @@ export default function SystemSettingsPage() {
             className={`tab ${activeTab === tab ? "active" : ""}`}
             onClick={() => setActiveTab(tab)}
           >
-            {tab === "site" && "Site Information"}
-            {tab === "device" && "Device Configuration"}
-            {tab === "notification" && "Notification Settings"}
-            {tab === "realtime" && "Realtime Settings"}
+            {tab === "site" && lang.formatMessage({ id: "site_information" })}
+            {tab === "device" && lang.formatMessage({ id: "device_configuration" })}
+            {tab === "notification" && lang.formatMessage({ id: "notification_settings" })}
+            {tab === "realtime" && lang.formatMessage({ id: "realtime_settings" })}
           </button>
         ))}
       </div>

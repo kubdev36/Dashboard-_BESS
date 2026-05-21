@@ -3,7 +3,8 @@ import Modal from "../../Modal/Modal";
 import StatusBadge from "../../Modal/StatusBadge";
 import { mockUsers } from "../../data/mockData";
 import "./UserManagementPage.scss";
-
+import { useLanguage } from "../../Lang/LanguageProvider";
+import { useIntl } from "react-intl";
 const emptyUser = {
   name: "",
   email: "",
@@ -14,6 +15,8 @@ const emptyUser = {
 };
 
 export default function UserManagementPage() {
+  const lang = useIntl();
+
   const [users, setUsers] = useState(mockUsers);
   const [search, setSearch] = useState("");
   const [role, setRole] = useState("All");
@@ -59,12 +62,12 @@ export default function UserManagementPage() {
         prev.map((user) =>
           user.id === editing.id
             ? {
-                ...user,
-                name: form.name,
-                email: form.email,
-                role: form.role,
-                status: form.status,
-              }
+              ...user,
+              name: form.name,
+              email: form.email,
+              role: form.role,
+              status: form.status,
+            }
             : user,
         ),
       );
@@ -93,16 +96,16 @@ export default function UserManagementPage() {
       <div className="card">
         <div className="page-toolbar">
           <div>
-            <div className="card-title">User Management</div>
+            <div className="card-title">{lang.formatMessage({ id: "use_management" })}</div>
             <div className="card-subtitle">
-              Quản lý tài khoản, role, trạng thái và hành động reset password.
+              {lang.formatMessage({ id: "description_settings" })}
             </div>
           </div>
           <div className="page-toolbar-actions">
             <input
               className="form-input"
               style={{ width: 220 }}
-              placeholder="Search name or email"
+              placeholder={lang.formatMessage({ id: "search_user" })}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -112,11 +115,11 @@ export default function UserManagementPage() {
               value={role}
               onChange={(e) => setRole(e.target.value)}
             >
-              <option value="All">All Roles</option>
-              <option value="Viewer">Viewer</option>
-              <option value="Operator">Operator</option>
-              <option value="Admin">Admin</option>
-              <option value="Engineer">Engineer</option>
+              <option value="All">{lang.formatMessage({ id: "all_roles" })}</option>
+              <option value="Viewer">{lang.formatMessage({ id: "viewer" })}</option>
+              <option value="Operator">{lang.formatMessage({ id: "operator" })}</option>
+              <option value="Admin">{lang.formatMessage({ id: "admin" })}</option>
+              <option value="Engineer">{lang.formatMessage({ id: "engineer" })}</option>
             </select>
             <select
               className="form-select"
@@ -124,13 +127,13 @@ export default function UserManagementPage() {
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
-              <option value="All">All Status</option>
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
-              <option value="Locked">Locked</option>
+              <option value="All">{lang.formatMessage({ id: "all_status" })}</option>
+              <option value="Active">{lang.formatMessage({ id: "active" })}</option>
+              <option value="Inactive">{lang.formatMessage({ id: "inactive" })}</option>
+              <option value="Locked">{lang.formatMessage({ id: "locked" })}</option>
             </select>
             <button className="btn btn-primary" onClick={openNew}>
-              Add User
+              {lang.formatMessage({ id: "add_user" })}
             </button>
           </div>
         </div>
@@ -141,14 +144,14 @@ export default function UserManagementPage() {
           <table className="table">
             <thead>
               <tr>
-                <th>User ID</th>
-                <th>Full Name</th>
+                <th>{lang.formatMessage({ id: "user_id" })}</th>
+                <th>{lang.formatMessage({ id: "fullname" })}</th>
                 <th>Email</th>
-                <th>Role</th>
-                <th>Status</th>
-                <th>Last Login</th>
-                <th>Created At</th>
-                <th>Action</th>
+                <th>{lang.formatMessage({ id: "role" })}</th>
+                <th>{lang.formatMessage({ id: "status" })}</th>
+                <th>{lang.formatMessage({ id: "last_login" })}</th>
+                <th>{lang.formatMessage({ id: "date_user" })}</th>
+                <th>{lang.formatMessage({ id: "action" })}</th>
               </tr>
             </thead>
             <tbody>
@@ -169,7 +172,7 @@ export default function UserManagementPage() {
                         className="btn btn-ghost btn-sm"
                         onClick={() => openEdit(user)}
                       >
-                        Edit
+                        {lang.formatMessage({ id: "edit" })}
                       </button>
                       <button
                         className="btn btn-secondary btn-sm"
@@ -178,18 +181,18 @@ export default function UserManagementPage() {
                             prev.map((item) =>
                               item.id === user.id
                                 ? {
-                                    ...item,
-                                    status:
-                                      item.status === "Locked"
-                                        ? "Active"
-                                        : "Locked",
-                                  }
+                                  ...item,
+                                  status:
+                                    item.status === "Locked"
+                                      ? "Active"
+                                      : "Locked",
+                                }
                                 : item,
                             ),
                           )
                         }
                       >
-                        {user.status === "Locked" ? "Unlock" : "Lock"}
+                        {user.status === "Locked" ? lang.formatMessage({ id: "unlock" }) : lang.formatMessage({ id: "lock" })}
                       </button>
                     </div>
                   </td>

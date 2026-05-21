@@ -11,8 +11,12 @@ import StatusBadge from "../../Modal/StatusBadge";
 import { useAuth } from "../../contexts/AuthContext";
 import { mockAlarms } from "../../data/mockData";
 import "./AlarmPage.scss";
+import { useLanguage } from "../../Lang/LanguageProvider";
+import { useIntl } from "react-intl";
 
 export default function AlarmPage() {
+  const lang = useIntl();
+
   const { hasPermission } = useAuth();
   const [alarms, setAlarms] = useState(mockAlarms);
   const [filterLevel, setFilterLevel] = useState("All");
@@ -51,14 +55,14 @@ export default function AlarmPage() {
       prev.map((a) =>
         a.id === id
           ? {
-              ...a,
-              status: "Acknowledged",
-              operator: "Admin",
-              acknowledgedAt: new Date()
-                .toISOString()
-                .slice(0, 16)
-                .replace("T", " "),
-            }
+            ...a,
+            status: "Acknowledged",
+            operator: "Admin",
+            acknowledgedAt: new Date()
+              .toISOString()
+              .slice(0, 16)
+              .replace("T", " "),
+          }
           : a,
       ),
     );
@@ -69,13 +73,13 @@ export default function AlarmPage() {
       prev.map((a) =>
         a.id === id
           ? {
-              ...a,
-              status: "Cleared",
-              clearedAt: new Date()
-                .toISOString()
-                .slice(0, 16)
-                .replace("T", " "),
-            }
+            ...a,
+            status: "Cleared",
+            clearedAt: new Date()
+              .toISOString()
+              .slice(0, 16)
+              .replace("T", " "),
+          }
           : a,
       ),
     );
@@ -94,11 +98,11 @@ export default function AlarmPage() {
               setPage(1);
             }}
           >
-            <option value="All">All Levels</option>
-            <option value="Info">Info</option>
-            <option value="Warning">Warning</option>
-            <option value="Fault">Fault</option>
-            <option value="Critical">Critical</option>
+            <option value="All">{lang.formatMessage({ id: "all_levels" })}</option>
+            <option value="Info">{lang.formatMessage({ id: "information" })}</option>
+            <option value="Warning">{lang.formatMessage({ id: "warning" })}</option>
+            <option value="Fault">{lang.formatMessage({ id: "error" })}</option>
+            <option value="Critical">{lang.formatMessage({ id: "critical" })}</option>
           </select>
           <select
             className="form-select"
@@ -109,12 +113,12 @@ export default function AlarmPage() {
               setPage(1);
             }}
           >
-            <option value="All">All Devices</option>
+            <option value="All">{lang.formatMessage({ id: "all_devices" })}</option>
             <option value="BMS">BMS</option>
             <option value="PCS">PCS</option>
-            <option value="Grid">Grid</option>
-            <option value="Battery">Battery</option>
-            <option value="System">System</option>
+            <option value="Grid">{lang.formatMessage({ id: "grid" })}</option>
+            <option value="Battery">{lang.formatMessage({ id: "battery" })}</option>
+            <option value="System">{lang.formatMessage({ id: "system" })}</option>
           </select>
           <select
             className="form-select"
@@ -125,10 +129,10 @@ export default function AlarmPage() {
               setPage(1);
             }}
           >
-            <option value="All">All Status</option>
-            <option value="Active">Active</option>
-            <option value="Acknowledged">Acknowledged</option>
-            <option value="Cleared">Cleared</option>
+            <option value="All">{lang.formatMessage({ id: "all_status" })}</option>
+            <option value="Active">{lang.formatMessage({ id: "active" })}</option>
+            <option value="Acknowledged">{lang.formatMessage({ id: "acknowledged" })}</option>
+            <option value="Cleared">{lang.formatMessage({ id: "cleared" })}</option>
           </select>
           <div className="form-input-icon-wrapper" style={{ width: 200 }}>
             <span className="form-input-icon">
@@ -136,7 +140,7 @@ export default function AlarmPage() {
             </span>
             <input
               className="form-input"
-              placeholder="Search alarms..."
+              placeholder={lang.formatMessage({ id: "search_alarms" })}
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
@@ -146,24 +150,24 @@ export default function AlarmPage() {
           </div>
           <button className="btn btn-ghost btn-sm">
             <LuDownload />
-            Export
+            {lang.formatMessage({ id: "export" })}
           </button>
         </div>
       </div>
 
       <div className="grid grid-4 mt-base">
         <div className="card alarm-summary">
-          <span className="alarm-summary-label">Total</span>
+          <span className="alarm-summary-label">{lang.formatMessage({ id: "total" })}</span>
           <span className="alarm-summary-value">{counts.total}</span>
         </div>
         <div className="card alarm-summary">
-          <span className="alarm-summary-label">Active</span>
+          <span className="alarm-summary-label">{lang.formatMessage({ id: "active" })}</span>
           <span className="alarm-summary-value text-danger">
             {counts.active}
           </span>
         </div>
         <div className="card alarm-summary">
-          <span className="alarm-summary-label">Acknowledged</span>
+          <span className="alarm-summary-label">{lang.formatMessage({ id: "acknowledged" })}</span>
           <span
             className="alarm-summary-value"
             style={{ color: "var(--warning)" }}
@@ -172,7 +176,7 @@ export default function AlarmPage() {
           </span>
         </div>
         <div className="card alarm-summary">
-          <span className="alarm-summary-label">Cleared</span>
+          <span className="alarm-summary-label">{lang.formatMessage({ id: "cleared" })}</span>
           <span className="alarm-summary-value text-success">
             {counts.cleared}
           </span>
@@ -185,13 +189,13 @@ export default function AlarmPage() {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Time</th>
-                <th>Level</th>
-                <th>Device</th>
-                <th>Message</th>
-                <th>Status</th>
-                <th>Operator</th>
-                <th>Actions</th>
+                <th>{lang.formatMessage({ id: "date" })}</th>
+                <th>{lang.formatMessage({ id: "level" })}</th>
+                <th>{lang.formatMessage({ id: "device" })}</th>
+                <th>{lang.formatMessage({ id: "message" })}</th>
+                <th>{lang.formatMessage({ id: "status" })}</th>
+                <th>{lang.formatMessage({ id: "operator" })}</th>
+                <th>{lang.formatMessage({ id: "action" })}</th>
               </tr>
             </thead>
             <tbody>

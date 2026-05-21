@@ -16,8 +16,11 @@ import {
   mockSystemSummary as sys,
 } from "../../data/mockData";
 import "./PCSPage.scss";
+import { useLanguage } from "../../Lang/LanguageProvider";
+import { useIntl } from "react-intl";
 
 export default function PCSPage() {
+  const lang = useIntl();
   return (
     <div className="pcs animate-fadeIn">
       <div className="card pcs-overview">
@@ -28,11 +31,11 @@ export default function PCSPage() {
           </div>
           <div className="flex items-center gap-lg">
             <div className="pcs-stat">
-              <span className="text-sm text-secondary">Efficiency</span>
+              <span className="text-sm text-secondary">{lang.formatMessage({ id: "efficiency" })}</span>
               <span className="font-bold text-lg">{sys.pcsEfficiency}%</span>
             </div>
             <div className="pcs-stat">
-              <span className="text-sm text-secondary">Temperature</span>
+              <span className="text-sm text-secondary">{lang.formatMessage({ id: "temperature" })}</span>
               <span className="font-bold text-lg">
                 {sys.pcsTemperature} degC
               </span>
